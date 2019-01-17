@@ -7,7 +7,12 @@
 		<module>wms_register</module>
 		<module>wms-api-gateway</module>
 		<module>wms-user</module>
-	</modules>
+        <module>wms-warehouse</module>
+        <module>wms-goods</module>
+        <module>wms-provider</module>
+        <module>wms-common</module>
+        <module>wms-logic-service</module>
+    </modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>

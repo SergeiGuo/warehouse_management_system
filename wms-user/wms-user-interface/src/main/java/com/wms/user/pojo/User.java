@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.*;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -41,4 +42,9 @@ public class User extends Model<User> {
     private String headImg;     //头像地址
     private Integer likeCount;  //被赞次数
     private Integer status;     //状态信息
+
+    @Override
+    protected Serializable pkVal() {
+        return this.id;
+    }
 }
