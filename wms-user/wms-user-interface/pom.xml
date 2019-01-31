@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.childwanwan.warehouse_management_system.user.service</groupId>
-    <artifactId>wma-user-interface</artifactId>
+    <artifactId>wms-user-interface</artifactId>
 
     <dependencies>
         <dependency>

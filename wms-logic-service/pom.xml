@@ -43,39 +43,31 @@
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
 
-        <!---->
-        <dependency>
-            <groupId>com.childwanwan.warehouse_management_system.user.service</groupId>
-            <artifactId>wms-user-service</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.childwanwan.warehouse_management_system.service</groupId>
-            <artifactId>wms-warehouse-service</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.childwanwan.warehouse_management_system.service</groupId>
-            <artifactId>wms-goods-service</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.childwanwan.warehouse_management_system.service</groupId>
-            <artifactId>wms-provider-service</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-        <!--
+        <!---->
         <dependency>
-            <groupId>com.leyou.common</groupId>
-            <artifactId>ly-common</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <groupId>com.childwanwan.warehouse_management_system.common</groupId>
+            <artifactId>wms-common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        -->
+
+        <!-- https://mvnrepository.com/artifact/net.sf.json-lib/json-lib-ext-spring -->
+        <dependency>
+            <groupId>net.sf.json-lib</groupId>
+            <artifactId>json-lib-ext-spring</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+
+        <!-- 添加OkHttp支持 -->
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>3.9.0</version>
+        </dependency>
+
     </dependencies>
 
 </project>

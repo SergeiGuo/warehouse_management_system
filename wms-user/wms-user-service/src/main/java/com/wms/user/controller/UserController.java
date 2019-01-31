@@ -2,16 +2,15 @@ package com.wms.user.controller;
 
 import com.wms.user.pojo.User;
 import com.wms.user.service.UserService;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
+
 
 /**
  * description:
@@ -30,5 +29,30 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(list);
+    }
+
+    @ResponseBody
+    //@GetMapping("/addUser")
+    @RequestMapping(value = "queryUserByTelAndPasswordAndStatus",method = RequestMethod.POST)
+    public ResponseEntity<JSONObject> queryUserByTelAndPasswordAndStatus(@RequestBody JSONObject jsonObject) {
+        //System.out.println(jsonObject);
+        //System.out.println("tel:"+jsonObject.get("tel"));
+        try {
+        List<User> list = userService.queryUserByTelAndPasswordAndStatus(jsonObject.get("tel").toString(),jsonObject.get("password").toString(),Integer.parseInt(jsonObject.get("status").toString()));
+        JSONObject result = new JSONObject();
+        if (list.size() <= 0) {
+            jsonObject.put("code",0);
+            jsonObject.put("message","没有相应的用户");
+            //System.out.println("没有相应的用户");
+            return ResponseEntity.ok(jsonObject);
+        }
+        jsonObject.put("code",1);
+        jsonObject.put("list",list);
+        return ResponseEntity.ok(jsonObject);
+        }catch (Exception e){
+            jsonObject.put("code",-1);
+            jsonObject.put("message","服务器异常");
+            return ResponseEntity.ok(jsonObject);
+        }
     }
 }

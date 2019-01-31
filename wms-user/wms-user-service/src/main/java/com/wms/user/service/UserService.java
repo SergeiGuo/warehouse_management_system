@@ -12,4 +12,6 @@ import java.util.List;
  */
 public interface UserService extends IService<User> {
     public User queryAllUser();
+
+    public List<User> queryUserByTelAndPasswordAndStatus(String tel,String password,int status);
 }
