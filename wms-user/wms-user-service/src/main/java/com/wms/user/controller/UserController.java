@@ -44,6 +44,7 @@ public class UserController {
             jsonObject.put("code",0);
             jsonObject.put("message","没有相应的用户");
             //System.out.println("没有相应的用户");
+            //new ResponseEntity<>(HttpStatus.NOT_FOUND);
             return ResponseEntity.ok(jsonObject);
         }
         jsonObject.put("code",1);
