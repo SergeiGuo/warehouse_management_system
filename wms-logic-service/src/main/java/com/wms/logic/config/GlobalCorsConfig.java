@@ -1,4 +1,4 @@
-package com.wms.config;
+package com.wms.logic.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,14 +10,14 @@ import org.springframework.web.filter.CorsFilter;
  * Copyright (C), 2019-2019, XXX有限公司
  * FileName: GlobalCorsConfig
  * Author:   Childwanwan
- * Date:     2019/1/29 19:10
- * Description: 解决跨域问题
+ * Date:     2019/2/2 21:03
+ * Description:
  * History:
  * <author>          <time>          <version>          <desc>
  * 作者姓名           修改时间           版本号              描述
  */
 
-@Configuration
+//@Configuration
 public class GlobalCorsConfig {
     @Bean
     public CorsFilter corsFilter() {
@@ -47,3 +47,4 @@ public class GlobalCorsConfig {
         return new CorsFilter(configSource);
     }
 }
+

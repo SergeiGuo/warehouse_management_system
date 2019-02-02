@@ -32,7 +32,6 @@ public class UserController {
     }
 
     @ResponseBody
-    //@GetMapping("/addUser")
     @RequestMapping(value = "queryUserByTelAndPasswordAndStatus",method = RequestMethod.POST)
     public ResponseEntity<JSONObject> queryUserByTelAndPasswordAndStatus(@RequestBody JSONObject jsonObject) {
         //System.out.println(jsonObject);
