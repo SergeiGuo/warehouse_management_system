@@ -1,10 +1,10 @@
 package com.wms.logic.controller;
 
-import com.wms.logic.config.WebSecurityConfig;
+
+import com.wms.logic.config.redis.RedisConn;
 import com.wms.logic.service.LogicService;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -46,7 +46,7 @@ public class LogicController {
     public ResponseEntity<JSONObject> queryUserByTelephone(HttpServletResponse response, HttpServletRequest request, HttpSession session, @RequestBody JSONObject jsonParams) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("hello world",1);
-        System.out.println("login的cookie:"+request.getCookies());
+        //System.out.println("login的cookie:"+request.getCookies());
         //System.out.println("准备进入异常");
         //System.out.println(jsonParams.get("username"));
         String tel = jsonParams.get("username").toString();
@@ -61,13 +61,16 @@ public class LogicController {
             //System.out.println(res);
             //int res =1;
             if(res>0){
-                response.setHeader("token", request.getSession().getId());
-                session.setAttribute(WebSecurityConfig.SESSION_KEY,tel);
+                //request.getSession().getId()
+                response.setHeader("token",tel);
+                //session.setAttribute(WebSecurityConfig.SESSION_KEY,tel);
                 //System.out.println(session.getAttribute(WebSecurityConfig.SESSION_KEY));
                 //System.out.println("login中的sessionID:"+session.getId());
+                RedisConn redisConn = new RedisConn();
+                redisConn.setDataIntoRedis(tel,"用户:"+tel);
                 jsonObject.put("code",1);
                 jsonObject.put("message","ok");
-                jsonObject.put("data",request.getSession().getId());
+                jsonObject.put("data",tel);
                 return new ResponseEntity<>(jsonObject,HttpStatus.OK);
             }else if (res==0){
                 jsonObject.put("code",0);
@@ -90,6 +93,7 @@ public class LogicController {
         //System.out.println("get_warehouse_message的cookie:"+request.getCookies());
         //System.out.println("get_warehouse_message"+tel);
         JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code",1);
         jsonObject.put("hello warehouseManager",1);
         System.out.println("获取数据中的sessionID:"+session.getId());
         return new ResponseEntity<>(jsonObject,HttpStatus.OK);
