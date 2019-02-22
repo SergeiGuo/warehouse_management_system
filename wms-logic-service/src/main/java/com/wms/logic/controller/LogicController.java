@@ -1,6 +1,8 @@
 package com.wms.logic.controller;
 
 
+import com.mysql.cj.xdevapi.JsonArray;
+import com.wms.goods.pojo.Goods;
 import com.wms.logic.config.redis.RedisConn;
 import com.wms.logic.service.LogicService;
 import net.sf.json.JSONObject;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Copyright (C), 2019-2019, XXX有限公司
@@ -96,6 +100,19 @@ public class LogicController {
         jsonObject.put("code",1);
         jsonObject.put("hello warehouseManager",1);
         System.out.println("获取数据中的sessionID:"+session.getId());
+        return new ResponseEntity<>(jsonObject,HttpStatus.OK);
+    }
+
+    @GetMapping("get_goods_message")
+    public ResponseEntity<JSONObject> getGoodsMessage(HttpServletRequest request,@RequestParam("pageSize") Integer pageSize,@RequestParam("currentPage") Integer currentPage,@RequestParam("warehouseId") String warehouseId) {
+        //System.out.println("进来了？？？？？");
+        //System.out.println("get_warehouse_message"+tel);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code",1);
+        //List list = new ArrayList();
+        //logicService.getGoodsMessage(pageSize,currentPage);
+        jsonObject.put("data",logicService.getGoodsMessage(pageSize,currentPage,warehouseId));
+        jsonObject.put("message","OK");
         return new ResponseEntity<>(jsonObject,HttpStatus.OK);
     }
 

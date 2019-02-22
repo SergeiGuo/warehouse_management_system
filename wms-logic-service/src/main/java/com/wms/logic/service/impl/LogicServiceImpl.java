@@ -1,11 +1,17 @@
 package com.wms.logic.service.impl;
 
+import com.wms.goods.pojo.Goods;
 import com.wms.logic.service.LogicService;
 import net.sf.json.JSONObject;
+import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Copyright (C), 2019-2019, XXX有限公司
@@ -79,4 +85,44 @@ public class LogicServiceImpl implements LogicService {
         return -1;
     }
        }
+
+    /*
+	  * @Author:Childwanwan
+	  * @Description:分页查询所有商品信息
+	  * @Para:* @param pageSize
+	 * @param currentPage
+	  * @data:2019/2/17  22:15
+	  */
+    @Override
+    public JSONObject getGoodsMessage(int pageSize, int currentPage, String warehouseId) {
+        System.out.println("进来了吗");
+
+        String url = "http://localhost:8083/goods/queryGoodsByPage";
+        Map<String, Object> params = new HashMap<>();
+        params.put("pageSize", pageSize);
+        params.put("currentPage", currentPage);
+		params.put("warehouseId", warehouseId);
+        //JSONObject jsonObject = new JSONObject();
+        try{
+        ResponseEntity<String> getForEntity = restTemplate.getForEntity(url+"?pageSize={pageSize}&currentPage={currentPage}&warehouseId={warehouseId}",String.class,params);
+        //Response
+        //System.out.println("postForEntity:"+postForEntity);
+        //System.out.println("              getStatusCodeValue:"+ postForEntity.getStatusCodeValue());
+        //System.out.println("              getHeaders:"+ postForEntity.getHeaders());
+        //System.out.println("              getBody:"+ postForEntity.getBody());
+        //System.out.println("              getHeaders:"+ postForEntity.);
+            System.out.println(getForEntity.getBody());
+        JSONObject strToJson = new JSONObject();
+        strToJson = JSONObject.fromObject(getForEntity.getBody());
+        System.out.println(strToJson.get("data"));
+        if(("-1").equals(strToJson.get("code").toString())){
+            return null;
+        }else if (("0").equals(strToJson.get("code").toString())){
+            return null;
+        }
+        return strToJson;//这里应该返回相应的数据
+    }catch (Exception e){
+        return null;
+    }
+    }
 }

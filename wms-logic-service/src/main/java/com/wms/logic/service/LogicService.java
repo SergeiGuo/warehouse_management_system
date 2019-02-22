@@ -1,5 +1,10 @@
 package com.wms.logic.service;
 
+import com.wms.goods.pojo.Goods;
+import net.sf.json.JSONObject;
+
+import java.util.List;
+
 /**
  * Copyright (C), 2015-2019, XXX有限公司
  * FileName: LogicService
@@ -13,4 +18,6 @@ package com.wms.logic.service;
 
 public interface LogicService {
     public int login(String tel,String password,String identify,String ip);
+
+    public JSONObject getGoodsMessage(int pageSize, int currentPage,String warehouseId);
 }

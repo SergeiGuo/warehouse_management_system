@@ -12,7 +12,8 @@
     <groupId>com.childwanwan.warehouse_management_system.logic_service</groupId>
     <artifactId>wms-logic-service</artifactId>
     <packaging>pom</packaging>
-    <dependencies><!--Eureka客户端-->
+    <dependencies>
+        <!--Eureka客户端-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
@@ -53,6 +54,11 @@
             <artifactId>wms-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.childwanwan.warehouse_management_system.service</groupId>
+            <artifactId>wms-goods</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
 
         <!-- https://mvnrepository.com/artifact/net.sf.json-lib/json-lib-ext-spring -->
         <dependency>
@@ -73,6 +79,12 @@
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
             <version>2.9.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.childwanwan.warehouse_management_system.service</groupId>
+            <artifactId>wms-goods-interface</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
 
 
