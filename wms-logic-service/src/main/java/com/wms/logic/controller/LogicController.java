@@ -1,10 +1,7 @@
 package com.wms.logic.controller;
 
-
-import com.mysql.cj.xdevapi.JsonArray;
-import com.wms.goods.pojo.Goods;
-import com.wms.logic.config.redis.RedisConn;
 import com.wms.logic.service.LogicService;
+import com.wms.warehouse.pojo.Warehouse;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,8 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 /**
  * Copyright (C), 2019-2019, XXX有限公司
@@ -49,7 +45,6 @@ public class LogicController {
     @PostMapping("login")
     public ResponseEntity<JSONObject> queryUserByTelephone(HttpServletResponse response, HttpServletRequest request, HttpSession session, @RequestBody JSONObject jsonParams) {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("hello world",1);
         //System.out.println("login的cookie:"+request.getCookies());
         //System.out.println("准备进入异常");
         //System.out.println(jsonParams.get("username"));
@@ -61,31 +56,40 @@ public class LogicController {
         try {
             //System.out.println("tel: "+tel+"password: "+password+"identify: "+identify+"ip: "+ip);
             //tel: 15797934717password: 123654789identify: 仓库管理员
-            int res = logicService.login(tel,password,identify,ip);
+            Map<String,Object> res = logicService.login(tel,password,identify,ip);
             //System.out.println(res);
             //int res =1;
-            if(res>0){
+            //获取仓库信息
+            Warehouse warehouse = logicService.getWarehouseByTel(tel);
+            //Warehouse warehouse = new Ware
+			//System.out.println(res.get("code"));
+			//System.out.println(Integer.parseInt(res.get("code").toString()));
+            if(Integer.parseInt(res.get("code").toString())>0){
                 //request.getSession().getId()
                 response.setHeader("token",tel);
                 //session.setAttribute(WebSecurityConfig.SESSION_KEY,tel);
                 //System.out.println(session.getAttribute(WebSecurityConfig.SESSION_KEY));
                 //System.out.println("login中的sessionID:"+session.getId());
-                RedisConn redisConn = new RedisConn();
-                redisConn.setDataIntoRedis(tel,"用户:"+tel);
                 jsonObject.put("code",1);
                 jsonObject.put("message","ok");
-                jsonObject.put("data",tel);
+                JSONObject jsonObject1 = new JSONObject();
+				//System.out.println(warehouse);
+                jsonObject1.put("warehouseData",warehouse);
+                jsonObject1.put("userData",res.get("data"));
+                jsonObject.put("data",jsonObject1);
                 return new ResponseEntity<>(jsonObject,HttpStatus.OK);
-            }else if (res==0){
+            }else if (Integer.parseInt(res.get("code").toString())==0){
                 jsonObject.put("code",0);
                 jsonObject.put("message","找不到符合要求的用户,请确认账号密码和身份");
                 return new ResponseEntity<>(jsonObject,HttpStatus.ACCEPTED);
             }else {
+				//System.out.println("进这里来了吗？");
                 jsonObject.put("code",-1);
                 jsonObject.put("message","系统内部异常");
                 return new ResponseEntity<>(jsonObject,HttpStatus.ACCEPTED);
             }
         }catch (Exception e){
+			//System.out.println("进这里来了吗？");
             jsonObject.put("code",-1);
             jsonObject.put("message","系统内部异常");
             return new ResponseEntity<>(jsonObject,HttpStatus.ACCEPTED);
@@ -99,7 +103,7 @@ public class LogicController {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("code",1);
         jsonObject.put("hello warehouseManager",1);
-        System.out.println("获取数据中的sessionID:"+session.getId());
+        //System.out.println("获取数据中的sessionID:"+session.getId());
         return new ResponseEntity<>(jsonObject,HttpStatus.OK);
     }
 
@@ -108,12 +112,29 @@ public class LogicController {
         //System.out.println("进来了？？？？？");
         //System.out.println("get_warehouse_message"+tel);
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("code",1);
-        //List list = new ArrayList();
-        //logicService.getGoodsMessage(pageSize,currentPage);
-        jsonObject.put("data",logicService.getGoodsMessage(pageSize,currentPage,warehouseId));
-        jsonObject.put("message","OK");
-        return new ResponseEntity<>(jsonObject,HttpStatus.OK);
+        try{
+			if (logicService.getGoodsMessage(pageSize,currentPage,warehouseId)!=null){
+				jsonObject.put("code",1);
+				//List list = new ArrayList();
+				//logicService.getGoodsMessage(pageSize,currentPage);
+				jsonObject.put("data",logicService.getGoodsMessage(pageSize,currentPage,warehouseId));
+				jsonObject.put("message","OK");
+			}else {
+				jsonObject.put("code",-1);
+				//List list = new ArrayList();
+				//logicService.getGoodsMessage(pageSize,currentPage);
+				//jsonObject.put("data",logicService.getGoodsMessage(pageSize,currentPage,warehouseId));
+				jsonObject.put("message","数据查询失败");
+			}
+			return new ResponseEntity<>(jsonObject,HttpStatus.OK);
+		}catch (Exception e){
+			jsonObject.put("code",-2);
+			//List list = new ArrayList();
+			//logicService.getGoodsMessage(pageSize,currentPage);
+			//jsonObject.put("data",logicService.getGoodsMessage(pageSize,currentPage,warehouseId));
+			jsonObject.put("message","系统内部异常");
+			return new ResponseEntity<>(jsonObject,HttpStatus.OK);
+		}
     }
 
 }

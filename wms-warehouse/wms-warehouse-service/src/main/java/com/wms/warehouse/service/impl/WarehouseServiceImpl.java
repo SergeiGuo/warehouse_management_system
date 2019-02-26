@@ -23,4 +23,9 @@ public class WarehouseServiceImpl extends ServiceImpl<WarehouseMapper, Warehouse
     public Warehouse queryUserbyId(){
         return warehouseMapper.selectById("1");
     }
+
+    @Override
+    public Warehouse getWarehouseByTel(String tel) {
+        return warehouseMapper.selectWarehouseByTel(tel);
+    }
 }

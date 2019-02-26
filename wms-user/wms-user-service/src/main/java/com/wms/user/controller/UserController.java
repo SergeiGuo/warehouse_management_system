@@ -47,7 +47,7 @@ public class UserController {
             return ResponseEntity.ok(jsonObject);
         }
         jsonObject.put("code",1);
-        jsonObject.put("list",list);
+        jsonObject.put("data",list);
         return ResponseEntity.ok(jsonObject);
         }catch (Exception e){
             jsonObject.put("code",-1);

@@ -14,4 +14,5 @@ import com.wms.warehouse.pojo.Warehouse;
  */
 public interface WarehouseService extends IService<Warehouse> {
     public Warehouse queryUserbyId();
+    public Warehouse getWarehouseByTel(String tel);
 }
